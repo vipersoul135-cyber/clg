@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Segoe UI;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .box {
+            background: #ffffff15;
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            margin: 8px;
+            border-radius: 8px;
+            border: none;
+            width: 220px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: blue;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <h2>College Attendance Login</h2>
+
+        <input id="user" placeholder="Example: cs1"><br>
+        <input id="pass" type="password" placeholder="Password"><br>
+        <button onclick="login()">Login</button>
+        <p id="msg"></p>
+    </div>
+
+    <script>
+
+        const departments = {
+            tam: "Tamil",
+            eng: "English",
+            com: "Commerce",
+            ca: "Computer Applications",
+            ms: "Management Studies",
+            sw: "Social Work",
+            math: "Mathematics",
+            phy: "Physics",
+            chem: "Chemistry",
+            cs: "Computer Science",
+            it: "Information Technology",
+            bio: "Biotechnology",
+            zoo: "Zoology",
+            hm: "Hotel Management",
+            vc: "Visual Communication",
+            pa: "Performing Arts"
+        };
+
+        function login() {
+
+            let u = user.value.toLowerCase();
+            let p = pass.value;
+
+            if (p !== "123") {
+                msg.innerText = "Wrong Password";
+                return;
+            }
+
+            let deptCode = u.slice(0, -1);
+            let year = u.slice(-1);
+
+            if (!departments[deptCode] || !["1", "2", "3"].includes(year)) {
+                msg.innerText = "Invalid Username";
+                return;
+            }
+
+            localStorage.setItem("dept", departments[deptCode]);
+            localStorage.setItem("year", year);
+
+            location.href = "home.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

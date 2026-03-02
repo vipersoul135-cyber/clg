@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Attendance</title>
+    <style>
+        body {
+            font-family: Segoe UI;
+            background: #667eea;
+            color: white;
+            text-align: center;
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border-bottom: 1px solid white;
+        }
+
+        button {
+            padding: 8px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            background: red;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Attendance</h2>
+    <input type="date" id="date" onchange="loadData()">
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="body"></tbody>
+    </table>
+
+    <button onclick="back()">Back</button>
+
+    <script>
+
+        let students = JSON.parse(localStorage.getItem("students")) || [];
+        let attendance = JSON.parse(localStorage.getItem("attendance")) || [];
+
+        function loadData() {
+
+            body.innerHTML = "";
+            let d = date.value;
+
+            students
+                .filter(s => s.dept == localStorage.getItem("dept")
+                    && s.year == localStorage.getItem("year"))
+                .forEach(s => {
+
+                    let absent = attendance.find(a => a.id == s.id && a.date == d);
+
+                    body.innerHTML += `
+<tr>
+<td>${s.id}</td>
+<td>${s.name}</td>
+<td>
+<input type="radio" name="${s.id}"
+${!absent ? "checked" : ""}
+onclick="mark('${s.id}','${d}','present')">Present
+<input type="radio" name="${s.id}"
+${absent ? "checked" : ""}
+onclick="mark('${s.id}','${d}','absent')">Absent
+</td>
+</tr>`;
+                });
+        }
+
+        function mark(id, date, status) {
+            attendance = attendance.filter(a => !(a.id == id && a.date == date));
+            if (status == "absent") {
+                attendance.push({ id, date });
+            }
+            localStorage.setItem("attendance", JSON.stringify(attendance));
+        }
+
+        function back() {
+            location.href = "home.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

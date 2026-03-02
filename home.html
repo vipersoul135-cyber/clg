@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Segoe UI;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            background: blue;
+            color: white;
+            cursor: pointer;
+        }
+
+        .red {
+            background: #dc2626
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 id="info"></h2>
+
+    <button onclick="go('register.html')">Register Student</button>
+    <button onclick="go('attendance.html')">Attendance</button>
+    <button onclick="go('report.html')">Report</button>
+    <br>
+    <button class="red" onclick="logout()">Logout</button>
+
+    <script>
+
+        let dept = localStorage.getItem("dept");
+        let year = localStorage.getItem("year");
+
+        if (!dept) {
+            location.href = "login.html";
+        }
+
+        let yearText = "";
+        if (year == "1") yearText = "1st Year";
+        if (year == "2") yearText = "2nd Year";
+        if (year == "3") yearText = "3rd Year";
+
+        info.innerText = dept + " - " + yearText;
+
+        function go(page) {
+            location.href = page;
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.href = "login.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

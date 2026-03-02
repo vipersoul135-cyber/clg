@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Report</title>
+    <style>
+        body {
+            font-family: Segoe UI;
+            background: #667eea;
+            color: white;
+            text-align: center;
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border-bottom: 1px solid white;
+        }
+
+        button {
+            padding: 8px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            background: red;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Attendance Report</h2>
+
+    From <input type="date" id="from">
+    To <input type="date" id="to">
+    <button onclick="generate()">Generate</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Total</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>%</th>
+            </tr>
+        </thead>
+        <tbody id="body"></tbody>
+    </table>
+
+    <button onclick="back()">Back</button>
+
+    <script>
+
+        let students = JSON.parse(localStorage.getItem("students")) || [];
+        let attendance = JSON.parse(localStorage.getItem("attendance")) || [];
+
+        function generate() {
+
+            body.innerHTML = "";
+
+            let days = new Set(
+                attendance
+                    .filter(a => a.date >= from.value && a.date <= to.value)
+                    .map(a => a.date)
+            );
+
+            let total = days.size;
+
+            students
+                .filter(s => s.dept == localStorage.getItem("dept")
+                    && s.year == localStorage.getItem("year"))
+                .forEach(s => {
+
+                    let absent = attendance
+                        .filter(a => a.id == s.id
+                            && a.date >= from.value
+                            && a.date <= to.value).length;
+
+                    let present = total - absent;
+                    let percent = total ? Math.round(present / total * 100) : 100;
+
+                    body.innerHTML += `
+<tr>
+<td>${s.id}</td>
+<td>${s.name}</td>
+<td>${total}</td>
+<td>${present}</td>
+<td>${absent}</td>
+<td>${percent}%</td>
+</tr>`;
+                });
+        }
+
+        function back() {
+            location.href = "home.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

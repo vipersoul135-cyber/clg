@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Segoe UI;
+            background: #667eea;
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 8px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 25px;
+            background: blue;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Register Student</h2>
+
+    <input id="name" placeholder="Student Name"><br>
+    <input id="id" placeholder="Student ID"><br>
+
+    <button onclick="add()">Add</button>
+    <button onclick="back()">Back</button>
+
+    <script>
+
+        let students = JSON.parse(localStorage.getItem("students")) || [];
+
+        function add() {
+
+            if (!name.value || !id.value) {
+                alert("Fill all fields");
+                return;
+            }
+
+            students.push({
+                id: id.value,
+                name: name.value,
+                dept: localStorage.getItem("dept"),
+                year: localStorage.getItem("year")
+            });
+
+            localStorage.setItem("students", JSON.stringify(students));
+
+            alert("Student Added");
+
+            name.value = "";
+            id.value = "";
+        }
+
+        function back() {
+            location.href = "home.html";
+        }
+
+    </script>
+
+</body>
+
+</html>
